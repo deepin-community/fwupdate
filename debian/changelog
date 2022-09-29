@@ -1,0 +1,272 @@
+fwupdate (12-7) unstable; urgency=medium
+
+  * Add a preinst script to clean up extra file from usage. (Closes: #939604)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Fri, 06 Sep 2019 17:20:42 -0500
+
+fwupdate (12-6) unstable; urgency=medium
+
+  * Convert package into a transition package (Closes: #925688)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Wed, 04 Sep 2019 11:54:50 -0500
+
+fwupdate (12-5) unstable; urgency=medium
+
+  [ Steve McIntyre ]
+  * Add Built-Using for the fwupdate-*-signed packages. Closes: #932756
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 22 Jul 2019 17:31:50 -0300
+
+fwupdate (12-4) unstable; urgency=medium
+
+  [ Steve McIntyre ]
+  * debian/gen_signing_json: Update the format of the json metadata to
+    match new requirements:
+    + Move all the data under a new top-level "packages" key
+    + Add an empty "trusted_certs" key - our binaries do not do any
+      further verification with an embedded key.
+
+  [ Mario Limonciello ]
+  * Install signed packages for secure boot automatically
+  * Use a virtual package fwupdate-signed to resolve the correct package
+  * Stop producing UEFI archive for Ubuntu signed images (LP: #1787254)
+
+ -- Steve McIntyre <93sam@debian.org>  Mon, 25 Mar 2019 00:47:29 +0000
+
+fwupdate (12-3) unstable; urgency=medium
+
+  * debian/rules: fix libexecdir location (Closes: #905549)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Sun, 05 Aug 2018 23:08:34 -0500
+
+fwupdate (12-2) unstable; urgency=medium
+
+  * Bring in a patch from PR https://github.com/rhboot/fwupdate/pull/121
+    to resolve FTBFS on armhf.
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Sat, 04 Aug 2018 23:13:11 -0500
+
+fwupdate (12-1) unstable; urgency=medium
+
+  [ Mario Limonciello ]
+  * New upstream version (12)
+  * debian/rules:
+    - Fix a copy error
+
+  [ Steve Mcintyre ]
+  * Initial support for UEFI Secure Boot in Debian infrastructure
+    + When building, also generate a fwupdate-$ARCH-signed-template package
+      which contains metadata needed by the Debian signing service. This
+      will end up being turned into a new source package including a signed
+      version of the fwupdate binary.
+  * Switch to using dpkg-parsechangelog --show-field in various places -
+    don't need sed any more.
+
+  [ Mario Limonciello ]
+
+ -- Steve McIntyre <93sam@debian.org>  Sun, 08 Apr 2018 11:50:28 +0100
+
+fwupdate (10-3) unstable; urgency=medium
+
+  [ Steve Mcintyre ]
+  * Move git repo from alioth to salsa.d.o
+
+  [ Mario Limonciello ]
+  * Build depend on efivar 34-1 to rebuild against new efivar (LP: #1749471)
+  * Bump standards version
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Wed, 14 Feb 2018 09:57:55 -0600
+
+fwupdate (10-2) unstable; urgency=medium
+
+  * debian/control: Depends on e2fsprogs (Closes: #887290)
+  * debian/rules: fix FTCBFS (Closes: #883489)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 15 Jan 2018 09:59:03 -0600
+
+fwupdate (10-1) unstable; urgency=medium
+
+  * New upstream version (10)
+  * Drop all patches, now upstream.
+  * State directory moved to /var/lib/ from /var/cache
+  * Cleanup /var/cache/fwupdate/ on upgrade
+  * Require efivar 32-2 or later to build due to UX capsule work.
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 08 Jan 2018 17:33:53 -0600
+
+fwupdate (9-3) unstable; urgency=medium
+
+  * Disable "Linux Firmware Updater" boot entry after installation
+    (LP: #1730343)
+  * update standards version
+  * Turn on hardening flags
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 06 Nov 2017 09:17:16 -0600
+
+fwupdate (9-2) unstable; urgency=medium
+
+  * Add patch to fix compilation with gcc-7. (Closes: #853409)
+  * Update build depends to efivar-31 to fix compilation with gcc-7
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Fri, 04 Aug 2017 16:11:35 -0500
+
+fwupdate (9-1) unstable; urgency=medium
+
+  * New upstream version (9)
+  * Add patch to fix compilation.
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Tue, 07 Mar 2017 19:03:07 -0600
+
+fwupdate (8-3) unstable; urgency=medium
+
+  * Rebuild against libefivar-dev 30.
+  * drop efivar version required patch.
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Fri, 23 Sep 2016 11:24:59 -0500
+
+fwupdate (8-2) unstable; urgency=medium
+
+  * debian/control:
+    - Update dell email addresses (_ -> .)
+    - Only build depend on libsmbios-dev for x86 (Closes: #837198)
+    - Drop armel from architecture list (no gnu-efi)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Wed, 07 Sep 2016 14:40:52 -0500
+
+fwupdate (8-1) unstable; urgency=medium
+
+  * New upstream version (8)
+  * Add build-depends on libsmbios-dev and tighten libefivar-dev dependency
+  * Correct various postinstall scripts for issues caught by shellcheck
+  * Add a postinst for libfwup0 to satisfy lintian error about not calling
+    ldconfig
+  * more shellcheck improvements
+  * Set EFIDIR on clean rule too
+  * fix install command
+  * Update to tighter efivar dependencies
+  * Add patch to fix efivar version dependency
+  * Update standards version.
+  * drop empty libfwup1 postinstall script
+  * Add lintian override for systemd missing Install target
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 29 Aug 2016 09:30:32 -0500
+
+fwupdate (0.5-4) unstable; urgency=medium
+
+  * Force date to use UTC timezone for reproducible builds
+  * Don't fail if ESP's fw directory doesn't exist during postrm (Closes: #810697)
+  * Fix potential upgrades from older versions of fwupdate that didn't have an
+    explicit dependency to bring in lsb_release
+  * Cleanup fwupdate.postinst on clean step too
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 15 Apr 2016 15:50:41 -0500
+
+fwupdate (0.5-3) unstable; urgency=medium
+
+  * Correct the location of the signed binaries
+  * Remove immutable attribute in cleanup script due to a kernel behavioral
+    change in ed8b0de5.
+  * Correct one more path related to signed script
+  * If EFI variables aren't available when the postinst runs, don't mistakingly
+    mark the cleanup script as done.  This avoids the cleanup done flag being
+    written in chroot situations
+  * Create ESP directory from scripts/install instead
+  * Purge EFI binaries from ESP for correct architecture
+  * If system isn't running in EFI mode, don't install binary to ESP directory
+  * Build DISTRIBUTOR into /usr/lib/fwupdate/install at build using dpkg-vendor.
+  * Modify postrm script: hardcode EFIDIR at build time, use
+    DPKG_MAINTSCRIPT_ARCH
+  * Remove empty directories during fwupdate cleanup (Closes: #810697)
+  * Make builds reproducible by setting POT-Creation-Date from debian/changelog.
+  * Adjust fwupdate.postinst.in's upgrade part of the script to not use lsb_release as well
+  * Drop dependency on coreutils, it's in Essential
+  * Add comments explaining the situation with signed vs unsigned binaries to README.Debian
+  * Fix a typo in debian/control
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 28 Mar 2016 19:41:06 -0500
+
+fwupdate (0.5-2) unstable; urgency=medium
+
+  * Remove unowned files that were created by fwupdate through purge.
+    (Fixes: #810697)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2016 16:04:19 -0600
+
+fwupdate (0.5-1) unstable; urgency=medium
+
+  * New upstream version: 0.5.
+  * Drop all patches merged upstream.
+  * debian/rules: Adjust GNUEFIDIR to not include prefix.
+  * Adjust name of binary that is installed to ESP
+  * Adjust build arguments to changes in build system
+  * Add clean file for systemd rules that aren't automatically cleaned on make 
+    clean
+  * Install systemd clean service script to /usr/lib/fwupdate
+  * Install new man pages and systemd service files
+  * Add efibootmgr to fwupdate dependencies to allow cleanup from postinst
+  * Cleanup Bootnum for old fwupdate.efi.  It will be regenerated with 
+    fwupd64.efi
+  * Place the done file for the cleanup service in /var/cache
+  * Call fwupdate cleanup in postinst to avoid problems with OS reinstallation
+  * Install EFI binaries for non-x64 arch as well
+  * Remove multiple Linux Firmware Updater entries if they exist
+  * Create cache directory in package
+  * Don't cleanup extra NVRAM boot entries on postinst.
+  * Build a raw-uefi archive for use with UEFI signing
+  * Add a common script for instaling fwup*.efi binary to ESP
+  * Remove empty postinst and postrm scripts for libfwup0.
+  * Only build raw-uefi archive on Ubuntu
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 19 Nov 2015 11:48:01 -0600
+
+fwupdate (0.4-5) unstable; urgency=medium
+
+  [ Mathieu Trudel-Lapierre ]
+  * debian/patches/do-not-pesign: don't self-sign EFI binaries.
+  * debian/control: dropped Build-Depends on pesign.
+
+  [ Mario Limonciello ]
+  * Backport 1c7f78 and 1c1218  to avoid errors if SHIM_DEBUG is missing.
+  * Add myself to uploaders.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 05 Oct 2015 14:43:51 -0500
+
+fwupdate (0.4-4) unstable; urgency=medium
+
+  [ Daniel Jared Dominguez ]
+  * Don't depend on efibootmgr since fwupdate uses efivar to set BootNext
+  * update VCS info
+
+  [ Mario Limonciello ]
+  * Adjust maintainer to be team owned.
+  * Backport 05d715f and 448aaab to fix arm* FTBFS. (Closes: #792904)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 09 Sep 2015 10:21:38 -0500
+
+fwupdate (0.4-3) unstable; urgency=medium
+
+  * We need elfutils now.
+
+ -- Daniel Jared Dominguez <Jared_Dominguez@Dell.com>  Mon, 13 Jul 2015 15:44:47 -0500
+
+fwupdate (0.4-2) unstable; urgency=medium
+
+  [ Mario Limonciello ]
+  * For the distribution directory make sure that it's lowercase.
+    This is what Debian and Ubuntu use for their EFI directories.
+  * Import a patch from upstream to fix linking order when --as-needed.
+  * Don't store EFI application in /boot/EFI in debian package.
+    This causes upgrade issues for the package.  Move it over to
+    /usr/lib/fwupdate and install in the postinst.
+  * Add some patches that fix the Boot entry creation GUID.
+  [ Daniel Jared Dominguez ]
+  * Fix a minor "make install" weirdness with our library symlinks.
+  * Add UEFI debugging stuff to the fwupdate binaries. (from upstream)
+
+ -- Daniel Jared Dominguez <Jared_Dominguez@Dell.com>  Mon, 13 Jul 2015 13:32:42 -0500
+
+fwupdate (0.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #785137)
+
+ -- Daniel Jared Dominguez <Jared_Dominguez@Dell.com>  Mon, 01 Jun 2015 22:30:51 -0500

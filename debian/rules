@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_build:
+	echo "NO-OP"
+
+override_dh_auto_install:
+	echo "NO OP"
+
+override_dh_auto_clean:
+	echo "NO OP"
